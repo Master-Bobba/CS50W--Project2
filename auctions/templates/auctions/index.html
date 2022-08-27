@@ -2,6 +2,11 @@
 
 {% block body %}
     <h2>Active Listings</h2>
-
-    TODO
+    <ul>
+    {% for listing in listings %}
+        <li>
+            {{listing.title }} starting at £{{listing.starting_bid}}.00
+        </li>
+    {% endfor%}
+    </ul>
 {% endblock %}
