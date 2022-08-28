@@ -3,10 +3,21 @@
 {% block body %}
     <h2>Active Listings</h2>
     <ul>
-    {% for listing in listings %}
-        <li>
-            {{listing.title }} starting at £{{listing.starting_bid}}.00
-        </li>
-    {% endfor%}
     </ul>
+    {% for listing in listings %}
+        <div style="border: 1px solid #b5b5b5">
+            <div style="position: relative; left:10px;">
+                <img src="{{ listing.image_url }}" alt="listing photo" class="img-rounded" style="width: 128px; height: 128px;">
+
+            
+                <p>
+                    {{ listing.title }} starting at £{{listing.starting_bid}}.00 
+                </p>
+                Listing made by {{ listing.owner }}
+            
+            </div>
+            
+            
+        </div>
+    {% endfor%}
 {% endblock %}
