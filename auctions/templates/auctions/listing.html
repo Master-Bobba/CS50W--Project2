@@ -1,0 +1,39 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Listing: {{ listing.title }}</h2>
+    <div class="row">
+        <div class="col-5">
+            <img src="{{ listing.image_url }}" alt="listing photo" class="img-rounded" style="width: 256px; height: 256px; margin-left: 10px;">
+        </div>
+        <div class="col-6">
+            <div style="margin-top: 10px; opacity: 90%; margin-left: 50px;">
+                {{ listing.description }}
+            </div>
+            <div style="margin-top: 10px; float: right;">
+                <h5> £{{ listing.starting_bid }}.00</h5>
+            </div>
+            <div style="margin-top: 30px; margin-left: 50px; opacity: 65%;">
+                Details:
+                <div style="margin-left:25px"> Listed by {{ listing.owner }}</div>
+                <div style="margin-left:25px"> Category: {{ listing.category }}</div>
+            </div>
+
+            <div style="margin-top: 10px; margin-left: 50px;" class="form-group">
+                <form action="{% url 'index' %}" style="margin-top: 10px;">
+                    <label for="exampleInputAmount" style="opacity: 85%"> Place a new bid for this listing </label>
+                    <input class="form-control" type="number" name="new_bid" placeholder="Bid in £">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" style="float:right; width: 150px; margin-top: 5px;">Place Bid </button>
+                </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-4"></div>
+    </div>
+    <div style="margin-top: 100px; margin-left: 10px;">
+        <h6 style="font-style:italic">Comments:</h6>
+    </div>
+    
+    
+{% endblock %}

@@ -79,3 +79,11 @@ def new_listing(request):
 
     else:
         return render(request, "auctions/new_listing.html")
+
+def listing(request, listing_id):
+    
+    listing = AuctionListing.objects.get(pk = listing_id)
+
+    return render(request, "auctions/listing.html", {
+        "listing": listing
+    })
