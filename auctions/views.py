@@ -85,5 +85,16 @@ def listing(request, listing_id):
     listing = AuctionListing.objects.get(pk = listing_id)
 
     return render(request, "auctions/listing.html", {
-        "listing": listing
+        "listing": listing,
+        "comments": Comment.objects.filter(listing=listing_id)
     })
+
+def newcomment(request, listing_id):
+    if request.method == "POST":
+        username = User.objects.get(username = request.user)
+        content = request.POST["content"]
+        listing = AuctionListing.objects.get(pk = listing_id)
+
+        new_comment = Comment(listing = listing, username=username, content=content)
+        new_comment.save()
+        return HttpResponseRedirect(reverse("listing", args=(listing.id,)) )
