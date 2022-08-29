@@ -1,7 +1,7 @@
 {% extends 'auctions/layout.html' %}
 
 {% block body %}
-<div class="row">
+<div class="row" style="margin-left: 200px;">
     <div class="col-3">
         <h2>Categories</h2>
         {% for category in categories %}
@@ -12,7 +12,7 @@
         </div>            
         {% endfor %}
     </div>
-    <div class="col-7">
+    <div class="col-8">
         <h2> Active Listings </h2>  
         {% for listing in listings %}
             <div style="border: 1px solid #b5b5b5; margin-bottom: 5px;">
@@ -21,7 +21,7 @@
                         <div class="col-3">
                             <img src="{{ listing.image_url }}" alt="listing photo" class="img-rounded" style="width: 128px; height: 128px;">
                         </div>
-                        <div class="main col-7">
+                        <div class="main col-6">
                             <h5 style="position:absolute; top: 10px;"> 
                                 {{ listing.title }}
                             </h5>

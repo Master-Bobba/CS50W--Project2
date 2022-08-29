@@ -1,8 +1,8 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>Create New listing </h2>
-    <form action="{% url 'new_listing' %}" method="post">
+    <h2 style="margin-left: 200px;">Create New listing </h2>
+    <form action="{% url 'new_listing' %}" method="post" style="margin-left: 200px; margin-right: 200px;">
         {% csrf_token %}
         <div class="form-group>">
             <label for="exampleInputEmail1"> Listing Title </label>
