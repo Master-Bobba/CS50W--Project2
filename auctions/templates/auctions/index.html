@@ -3,7 +3,7 @@
 {% block body %}
     <h2>Active Listings</h2>
     {% for listing in listings %}
-        <div style="border: 1px solid #b5b5b5; margin-bottom: 5px;">
+        <div style="border: 1px solid #b5b5b5; margin-bottom: 5px; margin-left: 50px; margin-right: 50px;">
             <a href="{% url 'listing' listing.id %}" style="color: black;">
                 <div class="row" style="margin: 2px;">
                     <div class="col-3">

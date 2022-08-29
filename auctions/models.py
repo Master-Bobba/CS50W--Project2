@@ -27,8 +27,6 @@ class AuctionListing(models.Model):
     def __str__(self):
         return f"{self.title} made by {self.owner}: bids £{self.bids}"
 
-
-
 class Comment(models.Model):
     listing = models.ForeignKey(AuctionListing, on_delete=models.CASCADE, related_name="comments")
     username = models.ForeignKey(User, on_delete=models.CASCADE)

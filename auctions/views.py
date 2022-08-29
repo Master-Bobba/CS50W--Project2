@@ -85,7 +85,7 @@ def listing(request, listing_id):
     
     listing = AuctionListing.objects.get(pk = listing_id)
     bids = listing.bids.all()
-
+    
     if bids:    
         highest_bid = listing.starting_bid
         for bid in bids:
@@ -95,14 +95,14 @@ def listing(request, listing_id):
             "listing": listing,
             "comments": Comment.objects.filter(listing=listing_id),
             "price": ListingBid.objects.get(bid_amount = highest_bid).bid_amount,
-            "number": len(bids)
+            "bid_number": len(bids)
         })
     else:
         return render(request, "auctions/listing.html", {
             "listing": listing,
             "comments": Comment.objects.filter(listing=listing_id),
             "price": listing.starting_bid,
-            "number": len(bids)
+            "bid_number": len(bids)
         })
 
 def newcomment(request, listing_id):
@@ -136,7 +136,7 @@ def bid(request, listing_id):
                 listing.bids.add(new_bid)
                 listing.starting_bid = int(new_bid_amount)
                 listing.save()
-                return HttpResponseRedirect(reverse("listing", args=(listing.id, number)))
+                return HttpResponseRedirect(reverse("listing", args=(listing.id,)))
             else:
                 return render(request, "auctions/listing.html", {
                     "listing": listing,
@@ -162,3 +162,34 @@ def bid(request, listing_id):
                     "bid_number": number
                 })
 
+def categories(request): 
+    listings = AuctionListing.objects.all()
+    categories = []
+    for listing in listings:
+        if listing.category not in categories:
+            categories.append(listing.category)
+        if not listing.category and "Other" not in categories:
+            categories.append("Other")
+    
+    return render(request, "auctions/categories.html",{
+        "categories": categories
+    })
+
+def opencategory(request, category):
+        listings = AuctionListing.objects.all()
+        categories = []
+        for listing in listings:
+            if listing.category not in categories:
+                categories.append(listing.category)
+            if not listing.category and "Other" not in categories:
+                categories.append("Other")
+        
+        if category == "Other":
+            listings = AuctionListing.objects.filter(category = "")
+        else:
+            listings = AuctionListing.objects.filter(category = category) 
+
+        return render(request, "auctions/categories.html",{
+            "categories": categories,
+            "listings": listings
+        })

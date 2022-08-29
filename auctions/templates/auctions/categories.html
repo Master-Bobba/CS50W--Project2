@@ -1,0 +1,52 @@
+{% extends 'auctions/layout.html' %}
+
+{% block body %}
+<div class="row">
+    <div class="col-3">
+        <h2>Categories</h2>
+        {% for category in categories %}
+        <div style="margin-top: 10px; margin-left: 5px">
+            <a href="/categories/{{ category }}"> 
+                {{ category }}
+            </a> 
+        </div>            
+        {% endfor %}
+    </div>
+    <div class="col-7">
+        <h2> Active Listings </h2>  
+        {% for listing in listings %}
+            <div style="border: 1px solid #b5b5b5; margin-bottom: 5px;">
+                <a href="{% url 'listing' listing.id %}" style="color: black;">
+                    <div class="row" style="margin: 2px;">
+                        <div class="col-3">
+                            <img src="{{ listing.image_url }}" alt="listing photo" class="img-rounded" style="width: 128px; height: 128px;">
+                        </div>
+                        <div class="main col-7">
+                            <h5 style="position:absolute; top: 10px;"> 
+                                {{ listing.title }}
+                            </h5>
+                            <div style="position:absolute; top: 45px; opacity: 50%;">
+                                {{ listing.description }}
+                            </div>
+                            <div style="position:absolute; bottom: 10px; font-style: italic;">
+                                by {{ listing.owner }}
+                            </div> 
+                        </div>
+                        <div class="col-1">
+                            <h4 style="position:absolute; top:10px;">
+                                £{{listing.starting_bid}}.00 
+                            </h4>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% empty %}
+        <div class="main col-lg-10 col-md-9">
+            <div style="margin-top: 10px; "> -- Please select a category from the side menu -- </div>
+        </div>
+        {% endfor%}
+    </div>
+</div>
+
+
+{% endblock %}
