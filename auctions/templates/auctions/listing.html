@@ -1,7 +1,7 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>Listing: {{ listing.title }}</h2>
+    <h2>{{ listing.title }}</h2>
     <div class="row">
         <div class="col-5">
             <img src="{{ listing.image_url }}" alt="listing photo" class="img-rounded" style="width: 256px; height: 256px; margin-left: 10px;">
@@ -11,23 +11,37 @@
                 {{ listing.description }}
             </div>
             <div style="margin-top: 10px; float: right;">
-                <h5> £{{ listing.starting_bid }}.00</h5>
+                <h5> £{{ price }}.00</h5>
             </div>
             <div style="margin-top: 30px; margin-left: 50px; opacity: 65%;">
                 Details:
                 <div style="margin-left:25px"> Listed by {{ listing.owner }}</div>
                 <div style="margin-left:25px"> Category: {{ listing.category }}</div>
+                <div style="margin-left:25px"> Number of Bids: {{ bid_number }}</div>
             </div>
-
-            <div style="margin-top: 10px; margin-left: 50px;" class="form-group">
-                <form action="{% url 'index' %}" style="margin-top: 10px;">
-                    <label for="exampleInputAmount" style="opacity: 85%"> Place a new bid for this listing </label>
-                    <input class="form-control" type="number" name="new_bid" placeholder="Bid in £">
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary" style="float:right; width: 150px; margin-top: 5px;">Place Bid </button>
+            {% if user.is_authenticated %}
+                <div style="margin-top: 10px; margin-left: 50px;" class="form-group">
+                    <form action="{% url 'bid' listing.id %}" style="margin-top: 10px;" method="post">
+                        {% csrf_token %}
+                        <label for="exampleInputAmount" style="opacity: 85%"> Place a new bid for this listing </label>
+                        <input class="form-control" type="number" name="bid_amount" placeholder="Bid in £">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary" style="float:right; width: 150px; margin-top: 5px;">Place Bid </button>
+                    </div>
+                    </form>
+                    {% if message %}
+                        <div style="color: red">
+                            {{ message }}
+                        </div>
+                    {% endif %}
                 </div>
-                </form>
-            </div>
+            {% else %}
+                <div style="margin-top: 30px; margin-left: 50px;" class="form-group"> 
+                    <a href="{% url 'login' %}">Log in </a>
+                    to place a bid!
+                </div>
+                
+            {% endif %}
         </div>
         <div class="col-4"></div>
     </div>

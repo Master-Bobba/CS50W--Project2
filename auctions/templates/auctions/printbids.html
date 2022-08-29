@@ -1,0 +1,11 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h1> Bids </h1>
+    {% for bid in bids %}
+        {{ bid.bid_amount }} by {{ bid.bidder }}
+    {% endfor %}
+    <h6>Highest bid </h6>
+    {{ highest_bid.bid_amount }} by {{ highest_bid.bidder }} 
+    Number of bits {{ number }}
+{% endblock %}
