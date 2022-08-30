@@ -10,7 +10,7 @@ from .models import User, AuctionListing, Comment, ListingBid
 
 def index(request):
     return render(request, "auctions/index.html",{
-        "listings": AuctionListing.objects.all(),
+        "listings": AuctionListing.objects.filter(winner = ''),
     })
 
 def login_view(request):
@@ -139,6 +139,12 @@ def bid(request, listing_id):
             for bid in bids:
                 if bid.bid_amount > highest_bid:
                     highest_bid = bid.bid_amount
+            #add automatically to watchlist
+            user = User.objects.get(username = request.user)
+            if user not in listing.watchers.all():
+                listing.watchers.add(user)
+            else:
+                pass
 
             if int(new_bid_amount) > highest_bid:
                 new_bid = ListingBid(bid_amount = new_bid_amount, bidder = new_bidder)
@@ -233,3 +239,26 @@ def notwatch(request, listing_id):
         listing.save()
 
         return HttpResponseRedirect(reverse("listing", args=(listing.id,)))
+
+def close(request, listing_id):
+    if request.method == 'POST':
+
+        listing = AuctionListing.objects.get(pk = listing_id)
+
+        bids = listing.bids.all()
+        highest_bid = listing.starting_bid
+
+        if bids:
+            for bid in bids:
+                if bid.bid_amount > highest_bid:
+                    highest_bid = bid.bid_amount
+        #get the winner of the auction
+            winner = listing.bids.get(bid_amount = highest_bid).bidder
+        else:
+            winner = listing.owner
+
+        listing.winner = winner.username
+        listing.save()
+
+        return HttpResponseRedirect(reverse("index"))
+
