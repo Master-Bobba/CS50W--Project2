@@ -23,6 +23,7 @@ class AuctionListing(models.Model):
     image_url = models.URLField(unique= True, default="https://media.istockphoto.com/vectors/no-image-available-sign-vector-id936182806?k=20&m=936182806&s=612x612&w=0&h=pTQbzaZhCTxWEDhnJlCS2gj65S926ABahbFCy5Np0jg=")
     category = models.CharField(max_length=64, blank=True)
     bids = models.ManyToManyField(ListingBid, blank=True, related_name="bids")
+    watchers = models.ManyToManyField(User, blank=True, related_name = "watchers")
 
     def __str__(self):
         return f"{self.title} made by {self.owner}: bids £{self.bids}"

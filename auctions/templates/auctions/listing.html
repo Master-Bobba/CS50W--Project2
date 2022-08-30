@@ -26,9 +26,20 @@
                         <label for="exampleInputAmount" style="opacity: 85%"> Place a new bid for this listing </label>
                         <input class="form-control" type="number" name="bid_amount" placeholder="Bid in £">
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary" style="float:right; width: 150px; margin-top: 5px;">Place Bid </button>
+                        <button type="submit" class="btn btn-primary" style="float:left; width: 200px; margin-top: 15px;">Place Bid </button>
                     </div>
                     </form>
+                    {% if watched is True %}
+                        <form action="{% url 'notwatch' listing.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary" style="float:right; width: 200px; margin-top: 0px;">Remove from Watchlist</button>
+                        </form>
+                    {% else %}
+                        <form action="{% url 'watch' listing.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary" style="float:right; width: 200px; margin-top: 0px;">Add to Watchlist</button>
+                        </form>
+                    {% endif %}
                     {% if message %}
                         <div style="color: red">
                             {{ message }}

@@ -1,0 +1,39 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2 style="margin-left: 200px;">My Watchlist</h2>
+    {% for listing in listings %}
+        <div style="border: 1px solid #b5b5b5; margin-bottom: 5px; margin-left: 200px; margin-right: 200px;">
+            <a href="{% url 'listing' listing.id %}" style="color: black;">
+                <div class="row" style="margin: 2px;">
+                    <div class="col-3">
+                        <img src="{{ listing.image_url }}" alt="listing photo" class="img-rounded" style="width: 128px; height: 128px;">
+                    </div>
+                    <div class="main col-7">
+                        <h5 style="position:absolute; top: 10px;"> 
+                            {{ listing.title }}
+                        </h5>
+                        <div style="position:absolute; top: 45px; opacity: 50%;">
+                            {{ listing.description }}
+                        </div>
+                        <div style="position:absolute; bottom: 10px; font-style: italic;">
+                            by {{ listing.owner }}
+                        </div> 
+                    </div>
+                    <div class="col">
+                        <h4 style="position:absolute; top:10px;">
+                            £{{listing.starting_bid}}.00 
+                        </h4>
+                    </div>
+                </div>
+            </a> 
+        </div>
+{% empty %}
+    <div style="margin-left: 200px">
+        Watchlist is empty. Add listings to watch. 
+    </div>
+        
+{% endfor%}
+
+
+{% endblock %}

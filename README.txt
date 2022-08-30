@@ -16,7 +16,7 @@ For each active listing, this page should display (at minimum) the title, descri
 DONE --> Listing Page: Clicking on a listing should take users to a page specific to that listing. On that page, users should be able to view 
 all details about the listing, including the current price for the listing.
     
-    If the user is signed in, the user should be able to add the item to their “Watchlist.” If the item is already on the watchlist, 
+    DONE --> If the user is signed in, the user should be able to add the item to their “Watchlist.” If the item is already on the watchlist, 
     the user should be able to remove it.
     
     DONE --> If the user is signed in, the user should be able to bid on the item. The bid must be at least as large as the starting bid, 
@@ -30,7 +30,7 @@ all details about the listing, including the current price for the listing.
 DONE --> Users who are signed in should be able to add comments to the listing page. The listing page should display all comments 
 that have been made on the listing.
 
-Watchlist: Users who are signed in should be able to visit a Watchlist page, which should display all of the listings that 
+DONE --> Watchlist: Users who are signed in should be able to visit a Watchlist page, which should display all of the listings that 
 a user has added to their watchlist. Clicking on any of those listings should take the user to that listing’s page.
 
 DONE --> Categories: Users should be able to visit a page that displays a list of all listing categories. Clicking on the name of any 

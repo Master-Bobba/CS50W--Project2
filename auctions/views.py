@@ -85,6 +85,14 @@ def listing(request, listing_id):
     
     listing = AuctionListing.objects.get(pk = listing_id)
     bids = listing.bids.all()
+
+    user = User.objects.get(username = request.user)
+
+    if user in listing.watchers.all():
+        watched = True
+    else:
+        watched = False
+
     
     if bids:    
         highest_bid = listing.starting_bid
@@ -95,14 +103,16 @@ def listing(request, listing_id):
             "listing": listing,
             "comments": Comment.objects.filter(listing=listing_id),
             "price": ListingBid.objects.get(bid_amount = highest_bid).bid_amount,
-            "bid_number": len(bids)
+            "bid_number": len(bids),
+            "watched": watched
         })
     else:
         return render(request, "auctions/listing.html", {
             "listing": listing,
             "comments": Comment.objects.filter(listing=listing_id),
             "price": listing.starting_bid,
-            "bid_number": len(bids)
+            "bid_number": len(bids),
+            "watched": watched
         })
 
 def newcomment(request, listing_id):
@@ -193,3 +203,33 @@ def opencategory(request, category):
             "categories": categories,
             "listings": listings
         })
+
+def watchlist(request):
+    user = User.objects.get(username = request.user)
+    listings = AuctionListing.objects.filter(watchers = user)
+    return render(request, "auctions/watchlist.html",{
+        "listings": listings
+    })
+
+def watch(request, listing_id):
+    if request.method == "POST":
+        user = User.objects.get(username = request.user)
+        listing = AuctionListing.objects.get(pk = listing_id)
+
+        if user not in listing.watchers.all():
+            listing.watchers.add(user)
+        else:
+            pass
+
+    return HttpResponseRedirect(reverse("listing", args=(listing.id,)))
+
+def notwatch(request, listing_id):
+    if request.method == "POST":
+
+        user = User.objects.get(username = request.user)
+        listing = AuctionListing.objects.get(pk = listing_id)
+
+        listing.watchers.remove(user)
+        listing.save()
+
+        return HttpResponseRedirect(reverse("listing", args=(listing.id,)))
