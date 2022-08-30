@@ -10,7 +10,7 @@ from .models import User, AuctionListing, Comment, ListingBid
 
 def index(request):
     return render(request, "auctions/index.html",{
-        "listings": AuctionListing.objects.filter(winner = ''),
+        "listings": AuctionListing.objects.filter(winner = "")
     })
 
 def login_view(request):
@@ -85,14 +85,16 @@ def listing(request, listing_id):
     
     listing = AuctionListing.objects.get(pk = listing_id)
     bids = listing.bids.all()
-
-    user = User.objects.get(username = request.user)
-
-    if user in listing.watchers.all():
-        watched = True
-    else:
+    
+    if request.user.is_authenticated:
+        user = User.objects.get(username = request.user)
+        
+        if user in listing.watchers.all():
+            watched = True
+        else:
+            watched = False
+    else: 
         watched = False
-
     
     if bids:    
         highest_bid = listing.starting_bid
@@ -179,7 +181,7 @@ def bid(request, listing_id):
                 })
 
 def categories(request): 
-    listings = AuctionListing.objects.all()
+    listings = AuctionListing.objects.filter(winner = "")
     categories = []
     for listing in listings:
         if listing.category not in categories:
@@ -192,8 +194,9 @@ def categories(request):
     })
 
 def opencategory(request, category):
-        listings = AuctionListing.objects.all()
+        listings = AuctionListing.objects.filter(winner = "")
         categories = []
+
         for listing in listings:
             if listing.category not in categories:
                 categories.append(listing.category)
@@ -203,8 +206,8 @@ def opencategory(request, category):
         if category == "Other":
             listings = AuctionListing.objects.filter(category = "")
         else:
-            listings = AuctionListing.objects.filter(category = category) 
-
+            listings = AuctionListing.objects.filter(category = category).filter(winner = "") 
+            
         return render(request, "auctions/categories.html",{
             "categories": categories,
             "listings": listings
